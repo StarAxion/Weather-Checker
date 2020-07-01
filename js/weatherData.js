@@ -12,6 +12,14 @@ function getElement(id) {
   return document.getElementById(id);
 }
 
+function clearWeatherData(message) {
+  temperature.innerHTML = '---';
+  humidity.innerHTML = '---';
+  windSpeed.innerHTML = '---';
+  pressure.innerHTML = '---';
+  weatherSummary.innerHTML = message;
+}
+
 
 
 function getCurrentGeoPosition() {
@@ -21,11 +29,7 @@ function getCurrentGeoPosition() {
       fetchWeatherByCoords(position.coords.latitude, position.coords.longitude);
     });
   } else {
-    temperature.innerHTML = '---';
-    humidity.innerHTML = '---';
-    windSpeed.innerHTML = '---';
-    pressure.innerHTML = '---';
-    weatherSummary.innerHTML = 'Your browser does not support Geolocation API!';
+    clearWeatherData('Your browser does not support geolocation API.');
   }
 }
 
@@ -42,11 +46,7 @@ function fetchWeatherByCoords(lat, lon) {
       displayWeatherData(result);
     })
     .catch(function () {
-      temperature.innerHTML = '---';
-      humidity.innerHTML = '---';
-      windSpeed.innerHTML = '---';
-      pressure.innerHTML = '---';
-      weatherSummary.innerHTML = 'Something went wrong. Please try again.';
+      clearWeatherData('Something went wrong. Please try again.');
     });
 }
 
@@ -57,6 +57,7 @@ function enterCityName(e) {
   if (cityNameField.value != '') {
     fetchWeatherByCity(cityNameField.value);
   } else {
+    clearWeatherData('Please enter city name.');
     cityNameField.focus();
   }
 }
@@ -74,11 +75,7 @@ function fetchWeatherByCity(cityName) {
       displayWeatherData(result);
     })
     .catch(function () {
-      temperature.innerHTML = '---';
-      humidity.innerHTML = '---';
-      windSpeed.innerHTML = '---';
-      pressure.innerHTML = '---';
-      weatherSummary.innerHTML = 'Invalid city name. Please try again.';
+      clearWeatherData('Invalid city name. Please try again.');
       cityNameField.value = '';
       cityNameField.focus();
     });
